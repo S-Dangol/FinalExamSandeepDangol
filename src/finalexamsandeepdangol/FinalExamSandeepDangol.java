@@ -18,7 +18,7 @@ import java.util.Random;
 public class FinalExamSandeepDangol {
 
   
-    
+    // method for Encrypting Text
     public static int EncryptTxt(char[] chars, int randomKey, char[] char2, int a) {
         for (char c : chars) {
             c += randomKey;
@@ -29,6 +29,7 @@ public class FinalExamSandeepDangol {
         return a;
     }
 
+    // method for Decrypting Text
     public static void DecryptTxt(char[] chars6, int randomKey, char[] char2, int a) {
         for (char c : chars6) {
             c -= randomKey;
@@ -38,6 +39,7 @@ public class FinalExamSandeepDangol {
         }
     }
 
+    // method for removing extra unwanted index from  array
     public static char[] FinalChar(int s, int i, int k, char[] char2) {
         char[] finalChar = new char[s];
         for (i = 0, k = 0; i < char2.length; i++) {
@@ -48,7 +50,7 @@ public class FinalExamSandeepDangol {
         }
         return finalChar;
     }
-
+    // method for generating Random Key
     public static int RandomKeyGen() {
         int randomKey;
         //Random Key generated "randomKey"
@@ -62,12 +64,12 @@ public class FinalExamSandeepDangol {
         String origin = "";
         String encrypt = "";
         
-        char[] chars;
-        char[] char2 = new char[1000];
-        char[] char3 = new char[1000];
-        char[] char4 = new char[1000];
-        char[] char5 = new char[1000];
-        char[] chars6 = new char[1000];
+        char[] charOrigin;
+        char[] charEncText = new char[1000];
+        char[] charStore = new char[1000];
+        char[] charDecToEnc1 = new char[1000];
+        char[] charEncToDec = new char[1000];
+        char[] charDecyp = new char[1000];
         String zxc = "";
         int a = 0, randomKey;
         int k, i;
@@ -78,7 +80,7 @@ public class FinalExamSandeepDangol {
         randomKey = RandomKeyGen();
  
 
-        // read originalText.txt
+        // reading  originalText.txt file
         try {
             BufferedReader br = new BufferedReader(
                     new FileReader("originalText.txt"));
@@ -89,16 +91,16 @@ public class FinalExamSandeepDangol {
 
         System.out.println("Original Text : \n"+origin);
 
-        chars = origin.toCharArray();
+        charOrigin = origin.toCharArray();
         
-        a = EncryptTxt(chars, randomKey, char2, a);
+        a = EncryptTxt(charOrigin, randomKey, charEncText, a);
         
         //saving index size of original text
         int s = a;
         
         
         
-        zxc = new String(char2);
+        zxc = new String(charEncText);
         System.out.println("");
         System.out.println("Encrypted Text : \n"+ zxc);
         // reverse string
@@ -112,11 +114,11 @@ public class FinalExamSandeepDangol {
         
         
         // Write on ecnryptText.txt
-        char3 = encrypt.toCharArray();
+        charStore = encrypt.toCharArray();
         try {
             BufferedWriter bw = new BufferedWriter(
                     new FileWriter("ecnryptedText.txt"));
-            for (char c : char3) {
+            for (char c : charStore) {
               
                 bw.write(c);
             }
@@ -138,45 +140,48 @@ public class FinalExamSandeepDangol {
         
         
         //Decrypting encryptText.txt
-        char4 = encrypt.toCharArray();
+        charDecToEnc1 = encrypt.toCharArray();
 
-        int ss = char4.length;
+        int ss = charDecToEnc1.length;
         ss -= 3;
 
-        
-        for (i = 0, k = 0; i < char4.length; i++) {
+            // Removing Header And Trailer from Encrypted Text
+        for (i = 0, k = 0; i < charDecToEnc1.length; i++) {
             if (i > 3 && i < ss) {
-                char5[k] = char4[i];
+                charEncToDec[k] = charDecToEnc1[i];
                 k++;
             }
         }
 
-   
-        zxc = new String(char5);
+            // RE-Reversing String 
+        zxc = new String(charEncToDec);
         sb = new StringBuilder(zxc);
         sb.reverse();
         encrypt = sb + "";
 
         // resultText.txt
         a = 0;
-        chars6 = encrypt.toCharArray();
-        DecryptTxt(chars6, randomKey, char2, a);
+        charDecyp = encrypt.toCharArray();
+        
+        DecryptTxt(charDecyp, randomKey, charEncText, a);
         
 
-        String result = new String(char2);
+        String result = new String(charEncText);
  
         
-        char[] finalChar = FinalChar(s, i, k, char2);
+        char[] finalChar = FinalChar(s, i, k, charEncText);
 
         result = new String(finalChar);
         System.out.println("");
         System.out.println("Result of Decryption Text : \n"+ result);
         
-        char3 = result.toCharArray();
+        charStore = result.toCharArray();
+        
+        // Write on resultText.txt
         try {
             BufferedWriter bw = new BufferedWriter(
                     new FileWriter("resultText.txt"));
-            for (char c : char3) {
+            for (char c : charStore) {
               
                 bw.write(c);
             }
@@ -184,7 +189,7 @@ public class FinalExamSandeepDangol {
         } catch (Exception ex) {
             return;
         }
-        // Write on ecnryptText.txt
+        
 
     }
 
